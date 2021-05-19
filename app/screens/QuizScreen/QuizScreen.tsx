@@ -18,7 +18,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
   return (
     <S.Container>
       <Text>{first.question}</Text>
-      {options.map(o => (<Button title={o} onPress={() => null} />))}
+      {options.map(o => (<Button key={o} title={o} onPress={() => null} />))}
     </S.Container>
   )
 }
