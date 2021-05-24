@@ -8,6 +8,7 @@ import * as S from './styled'
 type OwnProps = {
   active: boolean
   player: Player
+  onTimerEnd: () => void
   rotated?: boolean
 }
 
@@ -15,7 +16,7 @@ type Props = OwnProps & ViewProps
 
 const { height } = Dimensions.get('screen')
 
-const Timer: React.FC<Props> = ({ player, active, rotated, ...props }) => {
+const Timer: React.FC<Props> = ({ player, onTimerEnd, active, rotated, ...props }) => {
   const timeLeft = player.bank
 
   const timeAnimation = useRef(new Animated.Value(0)).current
@@ -40,7 +41,12 @@ const Timer: React.FC<Props> = ({ player, active, rotated, ...props }) => {
         const newPretty = getPrettyTime(remaining * 1000)
         setPretty(newPretty)
       })
-      countdown().start()
+      countdown().start(() => {
+        const timedOut = elapsedTime.current * 1000 === timeLeft
+        if (timedOut) {
+          onTimerEnd()
+        }
+      })
     } else {
       countdown().stop()
     }
