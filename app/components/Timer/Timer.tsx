@@ -19,26 +19,30 @@ const Timer: React.FC<Props> = ({ player, active, rotated, ...props }) => {
   const timeLeft = player.bank
 
   const timeAnimation = useRef(new Animated.Value(0)).current
+  const elapsedTime = useRef(0)
   const [pretty, setPretty] = useState(getPrettyTime(timeLeft / 100))
 
-  const countdown = Animated.timing(timeAnimation, {
-    toValue: timeLeft / 1000,
-    duration: timeLeft,
-    easing: Easing.linear,
-    useNativeDriver: false
-  })
+  const countdown = () => {
+    const duration = timeLeft - elapsedTime.current * 1000
+    return Animated.timing(timeAnimation, {
+      toValue: timeLeft / 1000,
+      duration: duration,
+      easing: Easing.linear,
+      useNativeDriver: false
+    })
+  }
 
   useEffect(() => {
     if (active) {
-
       timeAnimation.addListener(({ value }) => {
+        elapsedTime.current = value
         const remaining = player.bank / 1000 - value
         const newPretty = getPrettyTime(remaining * 1000)
         setPretty(newPretty)
       })
-      countdown.start()
+      countdown().start()
     } else {
-      countdown.stop()
+      countdown().stop()
     }
 
     return () => {
