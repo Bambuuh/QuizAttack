@@ -7,15 +7,25 @@ import { HomeStackParams } from '../../navigation/home'
 import { getQuizQuestions } from '../../api/quizService'
 import * as S from './styled'
 import { QuizQuestion } from '../../api/types'
+import { Player } from '../../types'
 
 type Props = {
   route: RouteProp<HomeStackParams, ScreenRoute.QUIZ>
 }
 
+function getSecondsFromNow(seconds: number) {
+  const now = new Date()
+  now.setSeconds(now.getSeconds() + seconds / 100)
+  return now.getTime()
+}
+
 const QuizScreen: React.FC<Props> = ({ route }) => {
+  const timeLimit = route.params.timeLimit
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
   const [questionIndex, setQuestionIndex] = useState(0)
-  const [playerOne, setPlayerOne] = useState(true)
+  const [isPlayerOne, setIsPlayerOne] = useState(true)
+  const [playerOne, setPlayerOne] = useState<Player>({ bank: timeLimit, current: timeLimit })
+  const [playerTwo, setPlayerTwo] = useState<Player>({ bank: timeLimit, current: timeLimit })
   const [loadingQuestions, setLoadingQuestions] = useState(false)
 
   useEffect(() => {
@@ -38,7 +48,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
 
   const onRightAnswer = () => {
     nextQuestion()
-    setPlayerOne(!playerOne)
+    setIsPlayerOne(!isPlayerOne)
   }
 
   const onWrongAnswer = () => {
@@ -53,15 +63,15 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <S.Container>
-      <Timer active={!playerOne} rotated />
+      <Timer player={playerOne} active={!isPlayerOne} rotated />
       <Question
         onRightAnswer={onRightAnswer}
         onWrongAnser={onWrongAnswer}
         style={{ padding: 16 }}
-        rotated={!playerOne}
+        rotated={!isPlayerOne}
         question={current}
       />
-      <Timer active={playerOne} />
+      <Timer player={playerTwo} active={isPlayerOne} />
     </S.Container>
   )
 }

@@ -6,6 +6,7 @@ import QuizScreen from '../screens/QuizScreen'
 
 export type HomeStackParams = {
   [ScreenRoute.QUIZ]: {
+    timeLimit: number
   }
 }
 
