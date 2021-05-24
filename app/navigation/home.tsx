@@ -17,7 +17,7 @@ const MainStack: React.FC = () => {
   return (
     <Navigator>
       <Screen name={ScreenRoute.HOME} component={HomeScreen} />
-      <Screen name={ScreenRoute.QUIZ} component={QuizScreen} />
+      <Screen options={{ headerShown: false }} name={ScreenRoute.QUIZ} component={QuizScreen} />
     </Navigator>
   )
 }

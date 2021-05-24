@@ -9,7 +9,7 @@ const { Navigator, Screen } = createStackNavigator()
 const MainNavigation: React.FC = () => {
   return (
     <NavigationContainer>
-      <Navigator>
+      <Navigator screenOptions={{ headerShown: false }}>
         <Screen name={StackRoute.MAIN} component={MainStack} />
       </Navigator>
     </NavigationContainer>

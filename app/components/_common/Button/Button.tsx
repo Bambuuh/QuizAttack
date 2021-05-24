@@ -12,7 +12,7 @@ type Props = OwnProps & TouchableOpacityProps
 const Button: React.FC<Props> = ({ title, onPress, ...props }) => {
   return (
     <S.Container {...props} onPress={onPress}>
-      <Text>{title}</Text>
+      <S.ButtonText>{title}</S.ButtonText>
     </S.Container>
   )
 }
