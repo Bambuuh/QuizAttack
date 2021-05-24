@@ -48,15 +48,15 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <S.Container>
-      <Timer active={playerOne} rotated />
+      <Timer active={!playerOne} rotated />
       <Question
         onRightAnswer={onRightAnswer}
         onWrongAnser={onWrongAnswer}
         style={{ padding: 16 }}
-        rotated={false}
+        rotated={!playerOne}
         question={current}
       />
-      <Timer active={!playerOne} />
+      <Timer active={playerOne} />
     </S.Container>
   )
 }
