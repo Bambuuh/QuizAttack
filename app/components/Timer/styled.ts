@@ -1,11 +1,12 @@
 import styled from 'styled-components/native'
 
-export const Container = styled.View<{rotated?: boolean}>`
+export const Container = styled.View<{active: boolean; rotated?: boolean}>`
   width: 100%;
   height: 25%;
   background-color: red;
   align-items: center;
   justify-content: center;
+  ${({active}) => active && `backgroundColor: green`}
   ${({rotated}) => rotated && `transform: rotate(180deg)`}
 `
 
