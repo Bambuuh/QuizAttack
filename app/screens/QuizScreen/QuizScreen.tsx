@@ -6,13 +6,14 @@ import { ScreenRoute } from '../../navigation/constants'
 import { HomeStackParams } from '../../navigation/home'
 import { getQuizQuestions } from '../../api/quizService'
 import * as S from './styled'
+import { QuizQuestion } from '../../api/types'
 
 type Props = {
   route: RouteProp<HomeStackParams, ScreenRoute.QUIZ>
 }
 
 const QuizScreen: React.FC<Props> = ({ route }) => {
-  const [questions, setQuestions] = useState(route.params.questions)
+  const [questions, setQuestions] = useState<QuizQuestion[]>([])
   const [questionIndex, setQuestionIndex] = useState(0)
   const [playerOne, setPlayerOne] = useState(true)
   const [loadingQuestions, setLoadingQuestions] = useState(false)
@@ -45,6 +46,10 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
   }
 
   const current = questions[questionIndex]
+
+  if (questions.length === 0) {
+    return null
+  }
 
   return (
     <S.Container>

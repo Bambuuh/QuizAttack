@@ -8,4 +8,5 @@ export const QueryText = styled.Text`
   font-weight: bold;
   text-align: center;
   font-size: 24px;
+  margin-bottom: 16px;
 `

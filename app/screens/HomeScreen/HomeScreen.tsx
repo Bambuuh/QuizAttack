@@ -14,11 +14,8 @@ const HomeScreen: React.FC = () => {
   const [questionsAmount, setQuestionsAmount] = useState('0')
 
   const onPressStart = async () => {
-    const questions = await getQuizQuestions()
     const params: HomeStackParams[ScreenRoute.QUIZ] = {
-      questions
     }
-
     navigation.navigate(ScreenRoute.QUIZ, params)
   }
 

@@ -3,11 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { ScreenRoute } from './constants'
 import HomeScreen from '../screens/HomeScreen'
 import QuizScreen from '../screens/QuizScreen'
-import { QuizQuestion } from '../api/types'
 
 export type HomeStackParams = {
   [ScreenRoute.QUIZ]: {
-    questions: QuizQuestion[]
   }
 }
 
