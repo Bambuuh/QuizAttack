@@ -44,19 +44,42 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
     setQuestions([...questions, ...newQuestions])
   }
 
+  const togglePlayerOne = Animated.timing(playerOneQuestionAnimation, {
+    toValue: isPlayerOne ? -moveWidth : 0,
+    duration: 300,
+    useNativeDriver: true
+  })
+
+  const togglePlayerTwo = Animated.timing(playerTwoQuestionAnimation, {
+    toValue: !isPlayerOne ? moveWidth : 0,
+    duration: 300,
+    useNativeDriver: true
+  })
+
+
   const toggleAnimation = () => {
-    return Animated.parallel([
-      Animated.timing(playerOneQuestionAnimation, {
-        toValue: isPlayerOne ? -moveWidth : 0,
+    const first = isPlayerOne ? togglePlayerOne : togglePlayerTwo
+    const second = !isPlayerOne ? togglePlayerOne : togglePlayerTwo
+    return first.start(() => {
+      nextQuestion()
+      second.start()
+    })
+  }
+
+  const nextQuestionAnimation = () => {
+    const animation = isPlayerOne ? playerOneQuestionAnimation : playerTwoQuestionAnimation
+    return Animated.timing(animation, {
+      toValue: isPlayerOne ? -moveWidth : moveWidth,
+      duration: 300,
+      useNativeDriver: true
+    }).start(() => {
+      nextQuestion()
+      Animated.timing(animation, {
+        toValue: 0,
         duration: 300,
         useNativeDriver: true
-      }),
-      Animated.timing(playerTwoQuestionAnimation, {
-        toValue: !isPlayerOne ? moveWidth : 0,
-        duration: 300,
-        useNativeDriver: true
-      })
-    ])
+      }).start()
+    })
   }
 
   const nextQuestion = () => {
@@ -64,13 +87,12 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
   }
 
   const onRightAnswer = () => {
-    nextQuestion()
     setIsPlayerOne(!isPlayerOne)
-    toggleAnimation().start()
+    toggleAnimation()
   }
 
   const onWrongAnswer = () => {
-    nextQuestion()
+    nextQuestionAnimation()
   }
 
   const onTimerOneEnd = () => {
