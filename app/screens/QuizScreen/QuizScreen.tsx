@@ -53,7 +53,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
     nextQuestion()
   }
 
-  const onTimeOneEnd = () => {
+  const onTimerOneEnd = () => {
     Alert.alert('Player TWO wins!!!')
     navigation.goBack()
   }
@@ -71,7 +71,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <S.Container>
-      <Timer onTimerEnd={onTimerTwoEnd} player={playerOne} active={!isPlayerOne} rotated />
+      <Timer onTimerEnd={onTimerOneEnd} player={playerOne} active={!isPlayerOne} rotated />
       <Question
         onRightAnswer={onRightAnswer}
         onWrongAnser={onWrongAnswer}
