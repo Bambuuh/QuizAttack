@@ -1,5 +1,5 @@
 import { RouteProp, useNavigation } from '@react-navigation/core'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Question from '../../components/Question'
 import Timer from '../../components/Timer'
 import { ScreenRoute } from '../../navigation/constants'
@@ -8,7 +8,7 @@ import { getQuizQuestions } from '../../api/quizService'
 import * as S from './styled'
 import { QuizQuestion } from '../../api/types'
 import { Player } from '../../types'
-import { Alert } from 'react-native'
+import { Alert, useWindowDimensions, Animated } from 'react-native'
 
 type Props = {
   route: RouteProp<HomeStackParams, ScreenRoute.QUIZ>
@@ -16,6 +16,9 @@ type Props = {
 
 const QuizScreen: React.FC<Props> = ({ route }) => {
   const timeLimit = route.params.timeLimit
+  const dimensions = useWindowDimensions()
+
+  const moveWidth = dimensions.width
 
   const navigation = useNavigation()
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
@@ -24,7 +27,8 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
   const [playerOne, setPlayerOne] = useState<Player>({ bank: timeLimit, current: timeLimit })
   const [playerTwo, setPlayerTwo] = useState<Player>({ bank: timeLimit, current: timeLimit })
   const [loadingQuestions, setLoadingQuestions] = useState(false)
-
+  const playerOneQuestionAnimation = useRef(new Animated.Value(0)).current
+  const playerTwoQuestionAnimation = useRef(new Animated.Value(moveWidth)).current
 
   useEffect(() => {
     const lessThan25 = questions.length - questionIndex < 25
@@ -40,6 +44,21 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
     setQuestions([...questions, ...newQuestions])
   }
 
+  const toggleAnimation = () => {
+    return Animated.parallel([
+      Animated.timing(playerOneQuestionAnimation, {
+        toValue: isPlayerOne ? -moveWidth : 0,
+        duration: 300,
+        useNativeDriver: true
+      }),
+      Animated.timing(playerTwoQuestionAnimation, {
+        toValue: !isPlayerOne ? moveWidth : 0,
+        duration: 300,
+        useNativeDriver: true
+      })
+    ])
+  }
+
   const nextQuestion = () => {
     setQuestionIndex(questionIndex + 1)
   }
@@ -47,6 +66,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
   const onRightAnswer = () => {
     nextQuestion()
     setIsPlayerOne(!isPlayerOne)
+    toggleAnimation().start()
   }
 
   const onWrongAnswer = () => {
@@ -72,13 +92,31 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
   return (
     <S.Container>
       <Timer onTimerEnd={onTimerOneEnd} player={playerOne} active={!isPlayerOne} rotated />
-      <Question
-        onRightAnswer={onRightAnswer}
-        onWrongAnser={onWrongAnswer}
-        style={{ padding: 16 }}
-        rotated={!isPlayerOne}
-        question={current}
-      />
+      <S.MidContainer>
+        <Question
+          onRightAnswer={onRightAnswer}
+          onWrongAnser={onWrongAnswer}
+          style={{ padding: 16, opacity: 0, transform: [{ translateX: -400 }] }}
+          question={current}
+        />
+        <Animated.View style={{ position: 'absolute', transform: [{ translateX: playerOneQuestionAnimation }] }}>
+          <Question
+            onRightAnswer={onRightAnswer}
+            onWrongAnser={onWrongAnswer}
+            style={{ padding: 16 }}
+            question={current}
+          />
+        </Animated.View>
+        <Animated.View style={{ position: 'absolute', right: 0, transform: [{ translateX: playerTwoQuestionAnimation, }], }}>
+          <Question
+            onRightAnswer={onRightAnswer}
+            onWrongAnser={onWrongAnswer}
+            style={{ padding: 16 }}
+            rotated
+            question={current}
+          />
+        </Animated.View>
+      </S.MidContainer>
       <Timer onTimerEnd={onTimerTwoEnd} player={playerTwo} active={isPlayerOne} />
     </S.Container>
   )

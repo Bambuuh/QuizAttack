@@ -4,3 +4,7 @@ export const Container = styled.View`
   flex: 1;
   justify-content: space-between;
 `
+
+export const MidContainer = styled.View`
+  position: relative;
+`

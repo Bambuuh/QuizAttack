@@ -6,7 +6,7 @@ import * as S from './styled'
 
 type OwnProps = {
   question: QuizQuestion
-  rotated: boolean
+  rotated?: boolean
   onRightAnswer: () => void
   onWrongAnser: () => void
 }

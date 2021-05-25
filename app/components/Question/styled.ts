@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
 import {colors} from '../../theme'
 
-export const Container = styled.View<{rotated: boolean}>`
+export const Container = styled.View<{rotated?: boolean}>`
   ${({rotated}) => rotated && `transform: rotate(180deg)`}
 `
 
