@@ -59,7 +59,7 @@ const Timer: React.FC<Props> = ({ player, onTimerEnd, active, rotated, ...props 
 
   const fillHeight = timeAnimation.interpolate({
     inputRange: [0, timeLeft / 1000],
-    outputRange: [height / 4, 0]
+    outputRange: [height / 5, 0]
   })
 
   return (

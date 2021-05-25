@@ -45,6 +45,9 @@ const Question: React.FC<Props> = ({ question, onRightAnswer, onWrongAnser, rota
   const unshuffled: QuizOption[] = [...incorrect, correct]
   const options = shuffle(unshuffled)
 
+  // @ts-ignore
+  const containerPadding = props?.style?.padding || 0
+
   const onPressOption = (option: QuizOption) => {
     if (option.correct) {
       return onRightAnswer()
@@ -56,11 +59,11 @@ const Question: React.FC<Props> = ({ question, onRightAnswer, onWrongAnser, rota
   const renderOptions = () => {
     return options.map((o, index) => {
       const onPress = () => onPressOption(o)
-      const style: any = index === 0 ? {} : { marginTop: 8 }
+      const style: any = index === 0 ? {} : { marginTop: 16 }
       if (o.correct) {
         style.backgroundColor = 'green'
       }
-      return (<Button style={style} key={o.title} title={o.title} onPress={onPress} />)
+      return (<Button containerPadding={containerPadding} style={style} key={o.title} title={o.title} onPress={onPress} />)
     })
   }
 

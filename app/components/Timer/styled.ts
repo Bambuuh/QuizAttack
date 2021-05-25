@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 export const Container = styled.View<{active: boolean; rotated?: boolean}>`
   position: relative;
   width: 100%;
-  height: 25%;
+  height: 20%;
   background-color: red;
   align-items: center;
   justify-content: center;

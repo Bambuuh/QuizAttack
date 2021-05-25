@@ -5,6 +5,7 @@ import * as S from './styled'
 type OwnProps = {
   title: string
   onPress: () => void
+  containerPadding?: number
 }
 
 type Props = OwnProps & TouchableOpacityProps
