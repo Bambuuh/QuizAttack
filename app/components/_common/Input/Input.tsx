@@ -5,6 +5,7 @@ import * as S from './styled'
 type OwnProps = {
   value: string
   onChange: (value: string) => void
+  containerPadding?: number
 }
 
 type Props = OwnProps & ViewProps
