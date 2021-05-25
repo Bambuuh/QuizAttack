@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Animated, ViewProps, Dimensions } from 'react-native'
+import { Animated, ViewProps, Dimensions, SafeAreaView } from 'react-native'
 import { Easing } from 'react-native-reanimated'
 import { Player } from '../../types'
 import { getPrettyTime } from '../../utils/time.utils'
@@ -59,7 +59,7 @@ const Timer: React.FC<Props> = ({ player, onTimerEnd, active, rotated, ...props 
 
   const fillHeight = timeAnimation.interpolate({
     inputRange: [0, timeLeft / 1000],
-    outputRange: [height / 5, 0]
+    outputRange: [height * 0.15, 0]
   })
 
   return (
