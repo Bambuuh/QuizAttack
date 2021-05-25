@@ -64,7 +64,7 @@ const Timer: React.FC<Props> = ({ player, onTimerEnd, active, rotated, ...props 
 
   return (
     <S.Container active={active} rotated={rotated} {...props}>
-      <Animated.View style={{ position: 'absolute', bottom: 0, height: fillHeight, backgroundColor: 'blue', width: '100%' }} />
+      <Animated.View style={{ position: 'absolute', bottom: 0, height: fillHeight, backgroundColor: '#16a085', width: '100%' }} />
       <S.TimeText>{pretty}</S.TimeText>
     </S.Container>
   )
