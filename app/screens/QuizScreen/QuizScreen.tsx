@@ -56,7 +56,6 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
     useNativeDriver: true
   })
 
-
   const toggleAnimation = () => {
     const first = isPlayerOne ? togglePlayerOne : togglePlayerTwo
     const second = !isPlayerOne ? togglePlayerOne : togglePlayerTwo
