@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ViewProps } from 'react-native'
 import { QuizQuestion } from '../../api/types'
 import Button from '../_common/Button'
@@ -9,6 +9,7 @@ type OwnProps = {
   rotated?: boolean
   onRightAnswer: () => void
   onWrongAnser: () => void
+  showCorrect: boolean
 }
 
 type Props = OwnProps & ViewProps
@@ -31,18 +32,26 @@ function shuffle(array: QuizOption[]) {
   return array
 }
 
-const Question: React.FC<Props> = ({ question, onRightAnswer, onWrongAnser, rotated, ...props }) => {
+const Question: React.FC<Props> = ({ question, showCorrect, onRightAnswer, onWrongAnser, rotated, ...props }) => {
   const query = question.question
 
   const incorrect: QuizOption[] = question.incorrect_answers.map(a => ({ title: a, correct: false }))
   const correct: QuizOption = { title: question.correct_answer, correct: true }
   const unshuffled: QuizOption[] = [...incorrect, correct]
-  const options = shuffle(unshuffled)
+  const [selectedIndex, setSelectedIndex] = useState<number>()
+  const [options, setOptions] = useState<QuizOption[]>([])
 
   // @ts-ignore
   const containerPadding = props?.style?.padding || 0
 
-  const onPressOption = (option: QuizOption) => {
+  useEffect(() => {
+    const unshuffled: QuizOption[] = [...incorrect, correct]
+    const options = shuffle(unshuffled)
+    setOptions(options)
+  }, [question])
+
+  const onPressOption = (option: QuizOption, index: number) => {
+    setSelectedIndex(index)
     if (option.correct) {
       return onRightAnswer()
     }
@@ -52,10 +61,17 @@ const Question: React.FC<Props> = ({ question, onRightAnswer, onWrongAnser, rota
 
   const renderOptions = () => {
     return options.map((o, index) => {
-      const onPress = () => onPressOption(o)
+      const onPress = () => onPressOption(o, index)
       const style: any = index === 0 ? {} : { marginTop: 16 }
       if (o.correct) {
-        style.backgroundColor = 'green'
+        if (showCorrect) {
+          style.backgroundColor = 'green'
+        } else {
+          style.backgroundColor = 'purple'
+        }
+      }
+      if (showCorrect && selectedIndex === index && !o.correct) {
+        style.backgroundColor = 'red'
       }
       return (<Button containerPadding={containerPadding} style={style} key={o.title} title={o.title} onPress={onPress} />)
     })

@@ -1,11 +1,18 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
+import HomeScreen from '../screens/HomeScreen'
+import QuizScreen from '../screens/QuizScreen'
 import { colors } from '../theme'
-import { StackRoute } from './constants'
-import MainStack from './home'
+import { ScreenRoute } from './constants'
 
 const { Navigator, Screen } = createStackNavigator()
+
+export type ScreenParams = {
+  [ScreenRoute.QUIZ]: {
+    timeLimit: number
+  }
+}
 
 const MainNavigation: React.FC = () => {
   return (
@@ -21,7 +28,8 @@ const MainNavigation: React.FC = () => {
       }
     }}>
       <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name={StackRoute.MAIN} component={MainStack} />
+        <Screen options={{ headerShown: false }} name={ScreenRoute.HOME} component={HomeScreen} />
+        <Screen options={{ headerShown: false }} name={ScreenRoute.QUIZ} component={QuizScreen} />
       </Navigator>
     </NavigationContainer>
   )

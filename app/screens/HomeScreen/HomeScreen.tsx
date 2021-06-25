@@ -4,8 +4,8 @@ import Button from '../../components/_common/Button'
 import Input from '../../components/_common/Input'
 import { baseline, colors } from '../../theme'
 import { useNavigation } from '@react-navigation/core'
-import { HomeStackParams } from '../../navigation/home'
 import { ScreenRoute } from '../../navigation/constants'
+import { ScreenParams } from '../../navigation/mainNavigation'
 
 const HomeScreen: React.FC = () => {
 
@@ -14,7 +14,7 @@ const HomeScreen: React.FC = () => {
 
   const onPressStart = async () => {
     const converted = +timeLimit * 1000
-    const params: HomeStackParams[ScreenRoute.QUIZ] = {
+    const params: ScreenParams[ScreenRoute.QUIZ] = {
       timeLimit: converted
     }
     navigation.navigate(ScreenRoute.QUIZ, params)
