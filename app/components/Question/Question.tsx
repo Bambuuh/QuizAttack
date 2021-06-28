@@ -63,17 +63,26 @@ const Question: React.FC<Props> = ({ question, showCorrect, onRightAnswer, onWro
     return options.map((o, index) => {
       const onPress = () => onPressOption(o, index)
       const style: any = index === 0 ? {} : { marginTop: 16 }
+      let colors = undefined
       if (o.correct) {
         if (showCorrect) {
+          colors = ['#11e49c', '#21c8cf']
           style.backgroundColor = 'green'
         } else {
           style.backgroundColor = 'purple'
         }
       }
       if (showCorrect && selectedIndex === index && !o.correct) {
-        style.backgroundColor = 'red'
+        colors = ['#f23b77', '#fd5155']
       }
-      return (<Button containerPadding={containerPadding} style={style} key={o.title} title={o.title} onPress={onPress} />)
+      if (index === 0) {
+        style.borderTopRightRadius = 100
+        style.borderTopLeftRadius = 100
+      } else if (index === options.length - 1) {
+        style.borderBottomRightRadius = 100
+        style.borderBottomLeftRadius = 100
+      }
+      return (<Button colors={colors} containerPadding={containerPadding} style={style} key={o.title} title={o.title} onPress={onPress} />)
     })
   }
 

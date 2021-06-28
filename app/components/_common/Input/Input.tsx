@@ -13,7 +13,7 @@ type Props = OwnProps & ViewProps
 const Input: React.FC<Props> = ({ value, onChange, ...props }) => {
   return (
     <S.Container {...props}>
-      <TextInput value={value} onChangeText={onChange} />
+      <TextInput style={{ color: 'white' }} value={value} onChangeText={onChange} />
     </S.Container>
   )
 }

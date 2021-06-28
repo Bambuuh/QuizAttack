@@ -7,4 +7,5 @@ export const Container = styled.View`
 
 export const MidContainer = styled.View`
   position: relative;
+  align-items: center;
 `

@@ -21,7 +21,7 @@ const MainNavigation: React.FC = () => {
       colors: {
         notification: colors.primary.color,
         border: colors.primary.color,
-        background: colors.background.color,
+        background: '#2f2e3f',
         card: colors.primary.color,
         primary: colors.primary.color,
         text: colors.background.onColor

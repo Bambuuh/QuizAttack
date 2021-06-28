@@ -61,6 +61,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
     const first = isPlayerOne ? togglePlayerOne : togglePlayerTwo
     const second = !isPlayerOne ? togglePlayerOne : togglePlayerTwo
     return first.start(() => {
+      setShowCorrect(false)
       nextQuestion()
       second.start()
     })
@@ -97,6 +98,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
   }
 
   const onRightAnswer = () => {
+    setShowCorrect(true)
     setIsPlayerOne(!isPlayerOne)
     toggleAnimation()
   }
