@@ -4,6 +4,7 @@ import {baseline, colors} from '../../../theme'
 
 const borderRadius = 4
 export const Container = styled(LinearGradient)<{containerPadding?: number}>`
+  padding: 0 16px;
   border-radius: 10px;
 `
 

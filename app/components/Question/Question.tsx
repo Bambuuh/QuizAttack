@@ -66,7 +66,7 @@ const Question: React.FC<Props> = ({ question, showCorrect, onRightAnswer, onWro
       let colors = undefined
       if (o.correct) {
         if (showCorrect) {
-          colors = ['#11e49c', '#21c8cf']
+          colors = ['#39b610', '#6ce22b']
           style.backgroundColor = 'green'
         } else {
           style.backgroundColor = 'purple'

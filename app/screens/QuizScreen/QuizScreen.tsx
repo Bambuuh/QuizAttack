@@ -88,7 +88,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
 
   const wrongAnswerAnimation = (cb: Function) => {
     setShowCorrect(true)
-    Animated.delay(1000).start(() => {
+    Animated.delay(2000).start(() => {
       if (cb) cb()
     })
   }
@@ -145,7 +145,7 @@ const QuizScreen: React.FC<Props> = ({ route }) => {
             question={current}
           />
         </Animated.View>
-        <Animated.View style={{ position: 'absolute', right: 0, transform: [{ translateX: playerTwoQuestionAnimation, }], }}>
+        <Animated.View style={{ position: 'absolute', right: 0, left: 0, transform: [{ translateX: playerTwoQuestionAnimation, }], }}>
           <Question
             showCorrect={showCorrect}
             onRightAnswer={onRightAnswer}
